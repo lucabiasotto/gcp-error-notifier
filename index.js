@@ -1,8 +1,7 @@
 const fetch = require('node-fetch');
 
-const webhookURL = 'https://chat.googleapis.com/v1/spaces/AAAAfXCMcXs/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=R7-AK4nnvH-ADOsMuOhEyMmGk9oJ1SJRb2Wxmx3jG-c%3D';
+const webhookURL = 'https://chat.googleapis.com/v1/spaces/AAAAfXCMcXs/messages?key=###################';
 
-//Chat di test const webhookURL = 'https://chat.googleapis.com/v1/spaces/AAAA7d6JA0E/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=eDx-t66AXLBh-ydx9amtX0_eE5UE4iD8kwXdJJZGEok%3D';
 
 /**
  * Responds to any HTTP request.
@@ -10,18 +9,17 @@ const webhookURL = 'https://chat.googleapis.com/v1/spaces/AAAAfXCMcXs/messages?k
  * @param {!express:Request} req HTTP request context.
  * @param {!express:Response} res HTTP response context.
  */
-exports.helloWorld = (req, res) => {
+exports.errorNotifier = (req, res) => {
   
-  console.log('start');
-
-  var namespace = "Sconosciuto";
-  var errore = "Sconosciuto";
+  var namespace = "Unknown";
+  var errore = "Unknown";
   
   try{
     const jsonData = req.body.message.data ? Buffer.from(req.body.message.data, 'base64').toString() : '';
     //console.log('req.body.message.data:' + jsonData);
     var reqData = JSON.parse(jsonData);
 
+    //app custom logic, based on log structure
     var line, namespaceIndex;
     for(var i=0; i<= reqData.protoPayload.line.length; i++){
       line = reqData.protoPayload.line[i];
@@ -40,6 +38,7 @@ exports.helloWorld = (req, res) => {
     console.error('Parse data fail');
   }
  
+  //Create the message
   var requestBody = {
                 "cards": [
                     {
